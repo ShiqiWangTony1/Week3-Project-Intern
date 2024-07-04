@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login Form</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <label>
+      <input type="checkbox" id="remember"> Remember my computer
+    </label>
+    <button type="submit">Login</button>
+  </form>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+      
+      console.log('Submitting login form', { username, password, remember }); // Debugging information
+      
+      try {
+        const response = await axios.post('http://127.0.0.1:3000/login', {
+          user: username,
+          secret: password,
+          remember: remember
+        });
+        console.log('Response from server:', response.data); // Debugging information
+        alert('Login successful: ' + response.data);
+      } catch (error) {
+        console.error('Error during login:', error);
+        alert('Login failed: ' + error.response.data);
+      }
+    });
+  </script>
+</body>
+</html>
